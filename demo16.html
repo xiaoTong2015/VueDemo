@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue2.0 的修改内容</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./Vue.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+
+			/*区别1： vue2.0 中的组件模板中只能有一个元素  第二个元素无法显示*/
+			/*Vue.component('aaa',{
+				template:'<h3>我是组件aaa</h3> <strong>这是我的模板中的第二个标签</strong>'
+			})*/
+
+			/*取而代之： 需要使用一个根元素包裹住所有的元素*/
+			Vue.component('aaa',{
+				template:'<div><h3>我是组件aaa</h3> <strong>这是我的模板中的第二个标签</strong></div>'
+			})
+
+			//新增简介方式： 直接使用JSON的方式
+			Main = {
+				template:"<h2>我是主页</h2>"
+			}
+			Vue.component('abc',Main);
+
+
+			/*区别2：生命周期*/
+			/*vue1.0的生命周期函数：
+					init
+					created
+					beforeCompile
+					compiled
+					ready
+					beforeDestroy
+					destroy
+			*/
+
+			/*取而代之： Vue2.0 新的生命周期函数
+					beforeCreate  组件实例刚刚被创建 属性，方法还没有
+					created		  实例已经创建完成 DOM还没有生成
+					beforeMount	  模板编译前
+					mounted	      模板编译完成   *（比较实用)
+					）
+					beforeDestroy 组件销毁前
+					destroy       组件销毁后
+
+					新增函数 vue1.0 没有：
+					beforeUpdate  组件更新之前
+					updated       组件更新完毕	*
+				
+			*/
+
+			/*区别三： for循环的使用
+				1. vue1.0 中向列表中添加重复的数据需要添加 track-by="$index"  而vue2.0中不需要添加该属性
+				2. vue1.0 中需要使用$index获取列表索引  而vue2.0中使用 v-for="(val, index) in list"的方式才能获取索引
+				3. vue2.0 使用 :key="index" 提高循环性能
+			*/
+
+
+			/*区别四： 自定义键盘事件的定义*/
+			/*vue1.0的自定义键盘事件的方式是
+					 Vue.directive('on').keyCodes.ctrl = 17*/
+
+			/*取而代之： Vue2.0 使用 
+					Vue.config.keyCodes.ctrl = 17 */
+
+
+
+			/*区别五 ： 取消了所有系统自带的过滤器*/
+
+			/*取而代之：
+				1. 使用 lodash 工具库
+				2. 使用自定义过滤器（但自定义过滤器的参数传递方式发生了改变）
+					vue1.0 ==> {value | toDou '1' '2' }
+					vue2.0 --> {value | toDou('1','2')}	
+			*/
+
+
+			new Vue({
+				el: '#box',
+				data : {
+					msg : 'Welcome to Vue2.0',
+					items : ['abc','def','ghi','jkl','mns']
+				},
+				methods:{
+					change(){
+						alert('触发KeyUP事件了');
+					}
+				}
+			});
+
+			
+		}
+
+		/*自定义过滤器*/
+		Vue.filter('toDou',function(input,m,n){
+			alert(m+n);
+			return input<10 ? '0'+input : input;
+		});
+
+	</script>
+	<div id="box">
+		<aaa></aaa>
+		{{msg}}
+		<br>
+		<abc></abc>
+		<br>
+		<ul>
+			<li v-for="(val,index) in items" :key="index">
+				{{index}} ==> {{val}}
+			</li>
+		</ul>
+
+		<br>
+		<input type="text" name="" @keyup.ctrl="change">
+		<br>
+		{{ '9' | toDou(3,4)}}
+	</div>
+</body>
+</html>

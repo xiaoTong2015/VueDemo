@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 组件的使用</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		window.onload = function(){
+
+			/*1. 声明模板*/
+			var Abc = Vue.extend({
+				data(){
+					return {
+						msg:'我是组件一'
+					};
+				},
+				methods: {
+					change(){
+						this.msg = '我原先是组件一';
+					}
+				},
+				template:'<h2 @click="change">{{msg}}</h2>'
+			});
+
+			/*2. 组件绑定（全局组件）*/
+			Vue.component('abc',Abc);
+
+
+			/*1. 定义方法二：组件二*/
+			Vue.component('def',{
+				template:'<h2>我是组件二</h2>'
+			});
+
+
+
+			new Vue({
+				el: '#box',
+				data:{
+
+				},
+				methods:{
+				
+				},
+				transitions:{
+					//用于定义动画名称   借助于animate.css实现
+					
+				},
+				components:{
+					//局部组件
+					qwe:Abc,
+					'tyc-one':{
+						//template:'<h2>我是组件三</h2>',
+						template:'#temp1'
+					},
+
+				}
+				
+			});
+		}
+
+	</script>
+	<div id="box">
+		<abc></abc>
+		<def></def>
+		<qwe></qwe>
+		<tyc-one></tyc-one>
+	</div>
+	
+	<template id="temp1">
+		我是模板
+	</template>
+</body>
+</html>

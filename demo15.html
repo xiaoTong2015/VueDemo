@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 使用Vue-router 实现路由功能</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<script type="text/javascript" src="./vue-router.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var App = Vue.extend();
+
+			var Home = Vue.extend({
+				'template':'#home'
+			});
+
+			var News = Vue.extend({
+				'template':'#news'
+			});
+
+			var router = new VueRouter();
+
+			router.map({
+				'home':{
+					component:Home,
+					subRoutes: {
+						'login': {
+							component:{
+								template: "我是登录"
+							}
+						},
+						'reg': {
+							component:{
+								template: "我是注册"
+							}
+						}
+					}
+				},
+				'news':{
+					component:News,
+					subRoutes: {
+						'/page/:id':{
+							component:{
+								template:"#page"
+							}
+						}
+					}
+				}
+			});
+
+			//设置跳转
+			router.redirect({
+				'/': '/home'
+			});
+
+			router.start(App,'#box');
+
+
+		}
+	</script>
+
+
+	<div id="box">
+		<ul>
+			<li>
+				<a v-link="{path:'/home'}">主页</a>
+			</li>
+			<li>
+				<a v-link="{path:'/news'}">新闻</a>
+			</li>
+		</ul>
+		<div>
+			<router-view></router-view>	
+		</div>
+		
+	</div>
+
+	<template id="home">
+		<h3>主页</h3>
+		<div>
+			<ul>
+				<li>
+					<a v-link="{path:'/home/login'}">登录</a>
+				</li>
+				<li>
+					<a v-link="{path:'/home/reg'}">注册</a>
+				</li>
+			</ul>
+			<router-view></router-view>
+		</div>
+	</template>
+	<template id="news">
+		<h3>新闻</h3>
+		<div>
+			<a v-link="{path:'/news/page/001?no=001'}">新闻001</a>
+			<a v-link="{path:'/news/page/002?no=002'}">新闻002</a>
+		</div>
+		<div>
+			<router-view></router-view>
+		</div>
+	</template>
+
+	<template id="page">
+		我是page {{$route.params | json}}
+		<br>
+		我的路径是 {{$route.path}}
+		<br>
+		我的查询参数 {{$route.query | json}}
+	</template>
+</body>
+</html>

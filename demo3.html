@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 使用resource模块 实现交互</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="Vue.v1.js"></script>
+	<script type="text/javascript" src="vue-resource.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function (){
+		new Vue({
+			el:"#box",
+			methods:{
+				//GET 方式
+				getData: function (){
+					this.$http.get('data.txt',{
+						//传递请求数据
+						a:1,
+						b:2
+					}).then(function(res){
+						//成功时执行
+						alert("成功获取数据" + res.data + "状态码为：" + res.status);
+					},function(res){
+						//失败时执行
+						alert(res.data);
+					});
+				},
+				//POST 方式
+				postData: function (){
+					this.$http.post('data.txt',{
+						//传递请求数据
+						a:1,
+						b:2
+					},{
+						//添加这个参数 才能发送POST数据
+						emulateJSON:true
+					}).then(function(res){
+						//成功时执行
+						alert("成功获取数据" + res.data + "状态码为：" + res.status);
+					},function(res){
+						//失败时执行
+						alert(res.data);
+					});
+				}
+				//JSONP 方式(跨域)
+				jsonpData: function (){
+					this.$http.jsonp('http://....',{
+						//传递请求数据
+						a:1,
+						b:2
+					},{
+						// 接口名 callback名称 默认名称是callback
+						jsonp: 'cb'	
+					}).then(function(res){
+						//成功时执行
+						alert("成功获取数据" + res.data + "状态码为：" + res.status);
+					},function(res){
+						//失败时执行
+						alert(res.data);
+					});
+				}
+			}	
+		});
+	}
+</script>
+
+	<div id="box">
+		<input type="button" name="" value="获取数据" @click="postData()">
+	</div>
+</body>
+</html>

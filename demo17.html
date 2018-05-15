@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 2.0 组件--单一事件组件通信</title>
+	<script type="text/javascript" src="./vue.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+
+			var Event = new Vue();
+
+			var A = {
+				template:`
+					<div>
+						<h3>我是组件A ==> </h3><strong>{{msg}}</strong> 
+						<input type="button" value="发送数据" @click="sendData">
+					</div>
+				`,
+				data(){
+					return {
+						msg:'我是组件A的数据'
+					};
+				},
+				methods:{
+					sendData(){
+						Event.$emit('a_msg',this.msg);
+					}
+				}
+			}
+			var B = {
+				template:`
+					<div>
+						<h3>我是组件B ==> </h3><strong>{{msg}}</strong>
+						<input type="button" value="发送数据" @click="sendData">
+					</div>
+				`,
+				data(){
+					return {
+						msg:'我是组件B的数据'
+					};
+				},
+				methods:{
+					sendData(){
+						Event.$emit('b_msg',this.msg);
+					}
+				}
+			}
+			var C = {
+				template:`
+					<div>
+						<h3>我是组件C</h3><strong>{{a}}<br>{{b}}</strong>
+					</div>	
+				`,
+				data(){
+					return {
+						a:'',
+						b:''
+					};
+				},
+				mounted(){
+					Event.$on('a_msg',function(a){
+						//alert(a);
+						this.a = a;
+					}.bind(this));
+
+					Event.$on('b_msg',function(b){
+						//alert(a);
+						this.b = b;
+					}.bind(this));
+				}
+			}
+			new Vue({
+				el:'#box',
+				data:{
+
+				},
+				components:{
+					'temp-a':A,
+					'temp-b':B,
+					'temp-c':C
+				}
+			});	
+		}		
+	</script>
+	<div id="box">
+		<temp-a></temp-a>
+		<temp-b></temp-b>
+		<temp-c></temp-c>
+	</div>
+</body>
+</html>

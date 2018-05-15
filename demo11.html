@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 动态组件的使用</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		window.onload = function(){
+
+			
+
+
+			new Vue({
+				el: '#box',
+				data:{
+					temp:''
+				},
+				methods:{
+					changeAaa(){
+						this.temp='aaa';
+					},
+					changeBbb(){
+						this.temp='bbb';
+					}
+				},
+				transitions:{
+					//用于定义动画名称   借助于animate.css实现
+					
+				},
+				components:{
+					'aaa': {
+						template:'<h2>我是组件aaa</h2>'
+					},
+					'bbb': {
+						template:'<h2>我是组件bbb</h2>'
+					}
+				}
+				
+			});
+		}
+
+	</script>
+	<div id="box">
+		<input type="button" name="" value="组件1" @click="changeAaa">
+		<input type="button" name="" value="组件2" @click="changeBbb">
+		<component :is="temp"></component>
+	</div>
+</body>
+</html>

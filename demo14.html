@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 模板占位符slot</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+			new Vue({
+				el: '#box',
+				data: {
+
+				},
+				method:{
+
+				},
+				components:{
+					'abc': {
+						template: '#abc',
+					} 
+				}
+			});
+		}
+	</script>
+
+	<div id="box"> 
+		<abc>
+			<ul slot="ul_data">
+				<li>123</li>
+				<li>456</li>
+				<li>789</li>
+			</ul>
+
+			<ol slot="ol_data">
+				<li>abc</li>
+				<li>def</li>
+				<li>ghi</li>
+			</ol>
+		</abc>
+	</div>
+
+	<template id="abc">
+		<slot name="ol_data">如果没有其他元素  我才显示</slot>
+		<h2>我是模板</h2>
+		<slot name="ul_data">如果没有其他元素  我才显示</slot>
+	</template>
+</body>
+</html>

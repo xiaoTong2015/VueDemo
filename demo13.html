@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 父子组件的应用2</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+				var vm = new Vue({
+				el: '#box',
+				data: {
+
+				},
+				methods:{
+
+				},
+				components:{
+					'f': {
+						template: '#father',
+						data(){
+							return {
+								'father_msg': '这是父组件的数据',
+								's_data':''
+							};
+						},
+						methods: {
+							get: function(val){
+								alert(val);
+								this.s_data = val;
+							}
+						},
+						components:{
+							's': {
+								props:['faMsg'],
+								template: '#son',
+								data(){
+									return {
+										'son_msg': '这是子组件的数据'
+									};
+								},
+								methods:{
+									pop: function(){
+										this.$emit('son_event',this.son_msg);
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		
+	</script>
+	<div id="box">
+		<f></f>
+	</div>
+
+	<!-- 定义父组件的模板 -->
+	<template id="father">
+		My name is father ==> {{s_data}}
+		<br>
+		<s :fa-msg="father_msg"  @son_event="get" ></s>
+
+	</template>
+
+	<!-- 定义子组件的模板 -->
+	<template id="son">	
+		My name is son ==> {{faMsg}}
+		<br>
+		<input type="button" name="" value="发送数据" @click="pop">
+	</template>
+</body>
+</html>

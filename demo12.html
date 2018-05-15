@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue 父子组件的使用1</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			new Vue({
+				el: '#box',
+				data:{
+				},
+				methods:{
+				},
+				transitions:{
+					//用于定义动画名称   借助于animate.css实现
+					
+				},
+				components:{
+					'aaa': {
+						data(){
+							return {
+								//vue 父组件和子组件的数据不是共享的  子组件也无法访问父组件的数据
+								msg:'我是父组件的数据'
+							};
+						},
+						//需要在父组件的模板中使用子组件
+						template:'<h2>我是组件aaa {{msg}}</h2><bbb :m="msg"></bbb>',
+						components:{
+							'bbb' : {
+								//子组件通过自定义属性绑定的方式可以拿到父组件的数据
+								props:['m'],
+								template:'<h3>我是组件bbb 这是我通过属性绑定的方式拿到的父组件的数据=> {{m}}</h3>'
+							}
+						}
+					},
+				}
+				
+			});
+		}
+
+	</script>
+	<div id="box">
+		<aaa></aaa>
+	</div>
+</body>
+</html>

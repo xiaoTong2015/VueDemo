@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bower的使用 和 Vue动画效果</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<link rel="stylesheet" type="text/css" href="./animate.css">
+	<style type="text/css">
+		#box1{
+			width: 100px;
+			height: 100px;
+			background: blue;
+			margin-left: 400px;
+		}
+	</style>
+</head>
+<body>
+	<!-- 
+	npm install bower  			安装
+	bower --version				查看版本
+	bower install packageName   安装指定包到当前目录下
+	bower uninstall packageName	卸载指定包
+	bower info 					查看指定包所有的版本信息 
+	bower install packageName#版本号  安装指定版本的包
+	-->
+
+
+	<script type="text/javascript">
+		window.onload = function(){
+			new Vue({
+				el: '#box',
+				data:{
+					bSign: true
+				},
+				methods:{
+					toggle(){
+		
+						this.bSign = !this.bSign;	
+					}
+				},
+				transitions:{
+					//用于定义动画名称   借助于animate.css实现
+					bounce:{
+						enterClass:'zoomInLeft',
+						leaveClass:'zoomOutRight'
+					}
+				}
+			});
+		}
+
+	</script>
+	<div id="box">
+		<input type="button" name="" value="显示切换" @click="toggle">
+		<div id="box1" v-show="bSign" class="animated" transition="bounce">
+			
+		</div>
+	</div>
+	
+</body>
+</html>

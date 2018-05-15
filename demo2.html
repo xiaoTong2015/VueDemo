@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue模板和过滤器的使用</title>
+	<script type="text/javascript" src="Vue.v1.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function (){
+		//自定义过滤器  单项过滤器
+		Vue.filter('myfilter',function(input,arg1,arg2) {
+			return input+arg1+arg2
+		});
+
+		//自定义过滤器 双向过滤器
+		Vue.filter('myfilter2',{
+			read: function(input){
+				//model => view
+				console.log (input);
+			},
+			write: function(val){
+				//view => model
+				console.log(val)
+			}
+		});
+
+
+		new Vue({
+			el:"#box",
+			data:{
+				msg:'abc',
+				arr:[1,21,3,41,5]
+			},
+			methods:{
+				show: function(){
+					alert("测试延迟过滤器 配合事件使用");
+				}
+			}
+		});
+
+		
+	}
+</script>
+
+	<div id="box">
+		<input type="txt" name="" v-model="msg">
+		<br>
+		<!-- 数据双向绑定模板使用方式 {{}}-->
+		{{msg}}
+		<br>
+		<!-- 数据单向显示的绑定方式 {{*}} -->
+		{{*msg}}
+		<br>
+		<!-- html转译输出 {{{}}}-->
+		{{{msg}}}
+		<br>
+
+		<!-- 过滤器的使用实例 -->
+		{{msg | uppercase}}
+		<br>
+		{{msg | capitalize}}
+		<br>
+		{{12 | currency}}
+		<br>
+		{{12 | currency '￥'}}
+		<br>
+		<!-- 延迟过滤器 -->
+		<input type="text" name="" value="" @keyup="show() | debounce 2000">
+
+		<!-- 限制循环过滤器  limitBy m(取几个) n(偏移量)  -->
+		<ul>
+			<li v-for="value in arr | limitBy 2 1">{{value}}</li>
+		</ul>
+
+		<!-- 数据过滤 filterBy '1' -->
+		<ul>
+			<li v-for="value in arr | filterBy '1'">{{value}}</li>
+		</ul>
+
+		<!-- 数据排序 orderBy [1/-1][正序/倒序] -->
+		<ul>
+			<li v-for="value in arr | orderBy -1">{{value}}</li>
+		</ul>
+		<br>
+
+		<!-- 将json对象显示成json字符串 -->
+		{{{'name':'张三','age':16} | json}}
+		<br>
+		<!-- 调用自定义过滤器 -->
+		{{ 'my' | myfilter 'name' 'tyc'}}
+	</div>
+</body>
+</html>

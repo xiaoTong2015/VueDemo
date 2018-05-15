@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 自定义指令(属性指令和元素指令和键盘信息)</title>
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+
+		//自定义(属性指令)的方式  自定义(属性指令)调用时必须使用"v-"开头
+		Vue.directive('backgd',function(value){
+			//alert(value);
+			this.el.style.background = value
+		});
+
+		//自定义(元素指令)的方式
+		Vue.elementDirective('zdy-el',{
+			bind: function(){
+				this.el.style.background='green'
+			}
+		});
+
+		/*绑定键盘按键*/
+		Vue.directive('on').keyCodes.ctrl = 17;
+
+		var vm = new Vue({
+			el: '#box',
+			data:{
+				msg:'abc',
+				color:'blue'
+			},
+			methods:{
+				showKeys: function (){
+					alert(1);
+				}
+			}
+		});
+	}
+
+
+
+</script>
+
+	<div id="box" >
+		<p v-backgd="color">
+			abc	
+		</p>
+		<p v-backgd="'yellow'">
+			def
+		</p>
+
+		<!-- 自定义元素 指令-->
+		<zdy-el>111</zdy-el>	
+		<br>
+		<!-- 键盘信息 -->
+		<input type="text" name="" value="" @keydown.ctrl="showKeys">		
+ 	</div>
+</body>
+</html

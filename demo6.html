@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 实例方法</title>
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+		var vm = new Vue({
+			/*el:'#box',*/
+			data:{
+				a:1
+			},
+			opt:'自定义属性'
+		});
+
+
+		//使用中的属性调用
+		console.log(vm.$el);
+		console.log(vm.$data);
+
+		//手动挂载
+		vm.$mount('#box');
+
+		//自定义属性的调用
+		console.log(vm.$options.opt);
+
+		//打印当前数据状态
+		vm.$log();
+
+		// ！！！！ v-for="value in arr"  当arr中出现重复数据后无法添加  需要添加 track-by="$index" 在循环标签中
+ 	}
+
+
+
+</script>
+
+	<div id="box">
+		{{a}}
+ 	</div>
+
+</body>
+</html

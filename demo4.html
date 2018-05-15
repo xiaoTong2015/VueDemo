@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 的生命周期 和 两个小标签</title>
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+		var vm = new Vue({
+			el:'#box',
+			data:{
+				msg:'<strong>abc</strong>'
+			},
+			methods:{
+
+			},
+			/*created: function(){
+				alert("实例创建完成");
+			},
+			beforeCompile: function(){
+				alert("编译之前");
+			},
+			compiled: function(){
+				alert('编译之后');
+			},
+			ready: function(){
+				alert("完成DOM节点的加载");
+			},
+			beforeDestroy: function(){
+				alert("销毁前");
+			},
+			destroyed: function(){
+				alert("销毁后");
+			}*/
+		});
+		window.onclick = function(){
+			//销毁vue对象
+			vm.$destroy()
+		}
+		
+	}
+</script>
+	<!-- v-cloak 属性配合style display：none;  可防止界面闪烁 间隔显示{{}} -->
+	<div id="box" v-cloak>
+		{{msg}}
+		<!-- v-text="msg" 等同于 {{msg}}  同时避免显示{{}}  但是只能显示文本 无法转移HTML标签 -->
+		<span v-text="msg"></span>
+
+		<!-- 对上面v-text的补充 可以转义HTML -->
+		<span v-html="msg"></span>
+	</div>
+
+
+</body>
+</html

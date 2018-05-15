@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 计算属性的两种使用方式</title>
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+		var vm = new Vue({
+			el:'#box',
+			data:{
+				a:1
+			},
+			computed: {
+				/*计算属性的第一种形式 简单形式*/
+				b: function(){
+					return this.a + 1;
+				},
+				/*计算属性的的第二种形式 完整形式*/
+				c: {
+					get: function(){
+						return this.a + 2;
+					},
+					set: function(val){
+						this.a = val;
+					}
+				}
+			}
+		});
+
+		document.onclick = function(){
+			vm.c = 10;
+		};
+	}
+</script>
+
+	<div id="box" v-cloak>
+		a => {{a}}
+		<br>
+		b => {{b}}
+		<br>
+		c => {{c}}
+ 	</div>
+
+
+</body>
+</html

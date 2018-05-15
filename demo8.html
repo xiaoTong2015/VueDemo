@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VUE 数据监听</title>
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+	
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+
+		var vm = new Vue({
+			el: '#box',
+			data:{
+				msg:'abc',
+			},
+			methods:{
+
+			}
+		});
+
+		//监听指定数据  数据发生改变后执行对应方法  (浅度监听 只能监听基本数据类型)
+		vm.$watch('msg', function(){
+			alert('msg 发生改变了');
+		});
+
+		//{deep:true}深度监控 可监听json对象类型
+		vm.$watch('msg',function(){
+			alert('msg 发生改变了');
+		},{deep:true});
+
+		document.onclick = function(){
+			vm.msg = 'def';
+		}
+	}
+
+</script>
+	<div id="box" >
+		{{msg}}
+ 	</div>
+</body>
+</html

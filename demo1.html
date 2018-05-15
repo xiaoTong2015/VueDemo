@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue数据绑定和事件绑定</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="./vue.v1.js"></script>
+	<style type="text/css">
+		.font_color{
+			color: red;
+		}
+
+		.font_fam{
+			font-family: "微软雅黑";
+		}
+
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	window.onload = function(){
+		vm = new Vue({
+			el: "#box",
+			data:{
+				msg: "I am a String",
+				list:['abc','def','asd'],
+				myjson:{
+					"a": "123",
+					"b": "456",
+					"c": "789"
+				},
+				url:"https://www.baidu.com/img/bd_logo1.png?where=super",
+				w: "200px",
+				font_color: "font_color",
+				font_fam: "font_fam"
+			},
+			methods:{
+				show: function (){
+					alert("my name is show function !");
+				},
+				print: function (ev){
+					alert(ev.clientX);
+				},
+				maopao1: function (ev){
+					//ev.cancelBubble=true
+					alert("maopao1");
+				},
+				maopao2: function (){
+					alert("maopao2");
+				},
+				moren: function () {
+					alert("默认行为");
+				},
+				keyEvent: function (ev){
+					alert(ev.keyCode)
+				}
+			}
+		});
+	}
+</script>
+	<div id="box">
+		<!-- 数据的双向绑定 -->
+		<input v-model="msg">
+		{{msg}}
+
+		<!-- 列表循环语句 -->
+		<ul>
+			<li v-for="(index, value) in list">
+				{{$index}} {{index}} {{value}}
+			</li>
+		</ul>
+
+		<!-- json循环 -->
+		<ul>
+			<li v-for="(key, value) in myjson">
+				{{key}} {{value}}	
+			</li>
+		</ul>
+
+
+		<!-- 事件触发 -->
+		<input type="button" name="button" v-on:click="show()" value="button ">
+
+		<!-- 事件对象  使用@符号简写"v-on:"-->
+		<input type="button" name="" @click="print($event)" value="事件对象">
+
+		<!-- 事件阻止冒泡和阻止默认行为 
+			阻止冒泡
+			1. ev.cancelBubble = true
+			2. @click.stop
+			阻止默认行为
+			1. ev.preventDefault()
+			2. @contextmenu.prevent
+		-->
+		<div @click="maopao2()">
+			<input type="button" name="" value="阻止冒泡" @click.stop="maopao1($event)">
+		</div>
+
+		<input type="button" name="" value="默认行为" @contextmenu.prevent="moren()">
+
+
+		<!-- 键盘事件 及 只处理指定按键的键盘事件 @keydown.up = 只处理上键的点击 -->
+		<input type="text" name="keybroad" placeholder="please input default zimu" @keydown="keyEvent($event)">
+		<input type="text" name="keybroad2" placeholder="please input default zimu2" @keydown.up="keyEvent($event)">
+
+
+		<!-- 属性绑定 v-bind:src="url" = src="{{url}}"  v-bind:可简写成 "："-->
+		<img :src="url" :width="w">
+
+		<!-- class 属性的绑定  style类似
+		1. 列表的方式 [data1,data2]
+		2. json的方式 {data1:true/false,data2:true/false}	
+		-->
+		<span :class="[font_color,font_fam]">测试属性绑定 list</span>
+		<span :class="{font_color:false,font_fam:true}">测试属性绑定 json</span>
+
+	</div>
+</body>
+</html>
